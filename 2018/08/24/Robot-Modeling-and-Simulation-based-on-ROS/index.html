@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="English">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CARIS,Simulation,ROS,Robotics,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Robot Modelling and Simulation base on ROSIntroductionThe current carbon fiber reinforced polymers(CFRP) manufacturing process is labor intensive, especially in the vacuum bagging stage. In manufactur">
+<meta name="keywords" content="CARIS,Simulation,ROS,Robotics">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Robot Modeling and Simulation based on ROS">
+<meta property="og:url" content="http://yoursite.com/2018/08/24/Robot-Modeling-and-Simulation-based-on-ROS/index.html">
+<meta property="og:site_name" content="Haokun Wang">
+<meta property="og:description" content="Robot Modelling and Simulation base on ROSIntroductionThe current carbon fiber reinforced polymers(CFRP) manufacturing process is labor intensive, especially in the vacuum bagging stage. In manufactur">
+<meta property="og:locale" content="English">
+<meta property="og:updated_time" content="2018-09-28T08:22:47.783Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Robot Modeling and Simulation based on ROS">
+<meta name="twitter:description" content="Robot Modelling and Simulation base on ROSIntroductionThe current carbon fiber reinforced polymers(CFRP) manufacturing process is labor intensive, especially in the vacuum bagging stage. In manufactur">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/24/Robot-Modeling-and-Simulation-based-on-ROS/">
+
+
+
+
+
+  <title>Robot Modeling and Simulation based on ROS | Haokun Wang</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="English">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Haokun Wang</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Department of Computer Science and Engineering, SUSTech.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            Schedule
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/24/Robot-Modeling-and-Simulation-based-on-ROS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Haokun Wang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haokun Wang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Robot Modeling and Simulation based on ROS</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-24T15:57:48+08:00">
+                2018-08-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Robotics/" itemprop="url" rel="index">
+                    <span itemprop="name">Robotics</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/24/Robot-Modeling-and-Simulation-based-on-ROS/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/08/24/Robot-Modeling-and-Simulation-based-on-ROS/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Robot-Modelling-and-Simulation-base-on-ROS"><a href="#Robot-Modelling-and-Simulation-base-on-ROS" class="headerlink" title="Robot Modelling and Simulation base on ROS"></a>Robot Modelling and Simulation base on ROS</h1><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>The current carbon fiber reinforced polymers(CFRP) manufacturing process is labor intensive, especially in the vacuum bagging stage. In manufacturing CFRP components in the vacuum infusion process, one of the main steps is vacuum bagging. Vacuum bagging is an intricate process that involves tightly layering the thin plastic film over a mold, forming and positioning pleats into the small radius features, and smoothing wrinkles across the surface in order to mitigate defects such as voids or incomplete lamination. The current process is labor intensive and when manufacturing large parts, the technician must work from an overhang which strains the worker. Therefore, to improve the process, a proof of concept robot arm end-effector which can semi-automate the vacuum bagging process while minimizing defects was the objective for the project.</p>
+<h2 id="Related-Work"><a href="#Related-Work" class="headerlink" title="Related Work"></a>Related Work</h2><h3 id="Pleating-Protocol"><a href="#Pleating-Protocol" class="headerlink" title="Pleating Protocol"></a>Pleating Protocol</h3><p>Pleating protocol is a vacuum bagging protocol for a roller-based pleat manipulation. When manipulating pleat, there are several challenges such as pleat straightness, multi-folds, or offset from the desired location. Therefore, special actions are required to resolve these issues. There are 4 steps in the proposed pleating protocol. First, partial vacuum of around 3 mbar is applied. Next, the end-effector will smooth the surface by pushing all the wrinkles towards the existing pleats. Further, the two sides of pleat are rolled in opposite direction so that pleat can be moved to the desired position. Lastly, the end-effector is lifted vertically to pull the pleat into a taut fold.</p>
+<p>![](D:\Hank\UBC-Summer\Mywork\Daily Report\Report\summer report\Fig2.png)</p>
+<h3 id="End-effector"><a href="#End-effector" class="headerlink" title="End-effector"></a>End-effector</h3><p>A proof of concept robot end-effector have be designed featuring a pair of ultrasonic sensors, accelerometer, force sensing resistors, Wi-Fi module, motor current sensors, potentiometer, and an Arduino micro controller. The end-effector inherits the form of a spring-loaded jaw which meets at the tip with high friction silicon elastomer rollers for pleat manipulation. The jaw is opened and closed via a servo. The torsional springs were selected according to the friction coefficient between the rollers and bagging material.</p>
+<p>![](D:\Hank\UBC-Summer\Mywork\Daily Report\Report\summer report\Fig3.PNG)</p>
+<h2 id="Robot-Modeling-and-Simulation"><a href="#Robot-Modeling-and-Simulation" class="headerlink" title="Robot Modeling and Simulation"></a>Robot Modeling and Simulation</h2><p>A robotics simulator is used to create application for a physical robot without depending on the actual machine, thus saving cost and time. In some case, these applications can be transferred onto the physical robot (or rebuilt) without modifications.</p>
+<p>The term robotics simulator can refer to several different robotics simulation applications. For example, in mobile robotics applications, behavior-based robotics simulators allow users to create simple worlds of rigid objects and light sources and to program robots to interact with these worlds. Behavior-based simulation allows for actions that are more biological in nature when compared to simulators that are more binary, or computational. In addition, behavior-based simulators may “learn” from mistakes and are capable of demonstrating the anthropomorphic quality of tenacity.</p>
+<p>In this project, We use two connected robot arms instead of humans.  The handler who wears HoloLens can set the goal points in 3D space. Once the arms receive the target, computer could obtain inverse kinematic solutions, and the end-effector will arrive all the positions one by one.</p>
+<p>![](D:\Hank\UBC-Summer\Mywork\Daily Report\Report\summer report\Fig5.png)</p>
+<h3 id="Unified-Robot-Description-Format-URDF"><a href="#Unified-Robot-Description-Format-URDF" class="headerlink" title="Unified Robot Description Format (URDF)"></a>Unified Robot Description Format (URDF)</h3><p>URDF is a language which is an XML format for representing a robot model. URDF means unified robot description format. This format allows everyone to define robot by himself. There are two main parts in URDF - links and joints (Fig 6). You can describe a link by importing a STL file. This is the gripper URDF demo.</p>
+<p>![](D:\Hank\UBC-Summer\Mywork\Daily Report\Report\summer report\Fig6.png)</p>
+<p>A code demo is show as following, it defines a robot called test_robot with 4 links and 3 joints.</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">robot</span> <span class="attr">name</span>=<span class="string">"test_robot"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">"link1"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">"link2"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">"link3"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">"link4"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">"joint1"</span> <span class="attr">type</span>=<span class="string">"continuous"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span> <span class="attr">link</span>=<span class="string">"link1"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">child</span> <span class="attr">link</span>=<span class="string">"link2"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">"joint2"</span> <span class="attr">type</span>=<span class="string">"continuous"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span> <span class="attr">link</span>=<span class="string">"link1"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">child</span> <span class="attr">link</span>=<span class="string">"link3"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">"joint3"</span> <span class="attr">type</span>=<span class="string">"continuous"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span> <span class="attr">link</span>=<span class="string">"link3"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">child</span> <span class="attr">link</span>=<span class="string">"link4"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">robot</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>The final URDF model is show as following.</p>
+<p>![](D:\Hank\UBC-Summer\Mywork\Daily Report\Report\summer report\Fig7..png)</p>
+<h3 id="Physical-Simulation-and-Model-Controlling"><a href="#Physical-Simulation-and-Model-Controlling" class="headerlink" title="Physical Simulation and Model Controlling"></a>Physical Simulation and Model Controlling</h3><p>This is an overview of robot modeling and simulation. Firstly, we need to use unified robot description format to describe our robot. Secondly, we could import Solidworks file into URDF, and load this URDF at physical simulation environment, one of the most popular is Gazebo. Although we have established a robot model in the physical simulation environment, we need to control it. ROS control is a robot controlling frame, includes hardware interface and controller manager. Controller manager manage many controller which can send commands to hardware and receive robot state message. In the one hand, ROS control can provide interface to users. In another hand, ROS control can communicate with hardware or simulation environment.</p>
+<p>![](D:\Hank\UBC-Summer\Mywork\Daily Report\Report\summer report\Fig8.PNG)</p>
+<p>Simulating a robot’s controllers in Gazebo can be accomplished using ros_control and a simple Gazebo plugin adapter. An overview of the relationship between simulation, hardware, controllers and transmissions is shown below: </p>
+<p>![](D:\Hank\UBC-Summer\Mywork\Daily Report\Report\summer report\Fig9.PNG)</p>
+<p>To use ros_control with your robot, you need to add some additional elements to your URDF. The <code>&lt;transmission&gt;</code> element is used to link actuators to joints, see the spec for exact XML format.</p>
+<p>For the purposes of gazebo_ros_control in its current implementation, the only important information in these transmission tags are:</p>
+<ul>
+<li><code>&lt;joint name=&quot;&quot;&gt;</code> - the name must correspond to a joint else where in your URDF</li>
+<li><code>&lt;type&gt;</code> - the type of transmission. Currently only “transmission_interface/SimpleTransmission” is implemented. (feel free to add more)</li>
+<li><code>&lt;hardwareInterface&gt;</code> - within the <code>&lt;actuator&gt;</code> and <code>&lt;joint&gt;</code> tags, this tells the gazebo_ros_control plugin what hardware interface to load (position, velocity or effort interfaces). Currently only effort interfaces are implemented. (feel free to add more)</li>
+</ul>
+<p>The rest of the names and elements are currently ignored.</p>
+<p>In addition to the transmission tags, a Gazebo plugin needs to be added to your URDF that actually parses the transmission tags and loads the appropriate hardware interfaces and controller manager. By default the gazebo_ros_control plugin is very simple, though it is also extensible via an additional plugin architecture to allow power users to create their own custom robot hardware interfaces between ros_control and Gazebo.</p>
+<p>The default plugin XML should be added to your URDF:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">gazebo</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">plugin</span> <span class="attr">name</span>=<span class="string">"gazebo_ros_control"</span> <span class="attr">filename</span>=<span class="string">"libgazebo_ros_control.so"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">robotNamespace</span>&gt;</span>/MYROBOT<span class="tag">&lt;/<span class="name">robotNamespace</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">gazebo</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>The gazebo_ros_control <code>&lt;plugin&gt;</code> tag also has the following optional child elements:</p>
+<ul>
+<li><code>&lt;robotNamespace&gt;</code>: The ROS namespace to be used for this instance of the plugin, defaults to robot name in URDF/SDF</li>
+<li><code>&lt;controlPeriod&gt;</code>: The period of the controller update (in seconds), defaults to Gazebo’s period</li>
+<li><code>&lt;robotParam&gt;</code>: The location of the robot_description (URDF) on the parameter server, defaults to ‘/robot_description’</li>
+<li><code>&lt;robotSimType&gt;</code>: The pluginlib name of a custom robot sim interface to be used (see below for more details), defaults to ‘DefaultRobotHWSim’</li>
+</ul>
+<p>By default, without a <code>&lt;robotSimType&gt;</code> tag, gazebo_ros_control will attempt to get all of the information it needs to interface with a ros_control-based controller out of the URDF. This is sufficient for most cases, and good for at least getting started.</p>
+<p>The default behavior provides the following ros_control interfaces:</p>
+<ul>
+<li>hardware_interface::JointStateInterface</li>
+<li>hardware_interface::EffortJointInterface</li>
+<li>hardware_interface::VelocityJointInterface - <em>not fully implemented</em></li>
+</ul>
+<p>The gazebo_ros_control Gazebo plugin also provides a pluginlib-based interface to implement custom interfaces between Gazebo and ros_control for simulating more complex mechanisms (nonlinear springs, linkages, etc).</p>
+<p>These plugins must inherit gazebo_ros_control::RobotHWSim which implements a simulated ros_control hardware_interface::RobotHW. RobotHWSim provides API-level access to read and command joint properties in the Gazebo simulator.</p>
+<p>The respective RobotHWSim sub-class is specified in a URDF model and is loaded when the robot model is loaded. For example, the following XML will load the default plugin (same behavior as when using no <code>&lt;robotSimType&gt;</code> tag):</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">gazebo</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">plugin</span> <span class="attr">name</span>=<span class="string">"gazebo_ros_control"</span> <span class="attr">filename</span>=<span class="string">"libgazebo_ros_control.so"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">robotNamespace</span>&gt;</span>/MYROBOT<span class="tag">&lt;/<span class="name">robotNamespace</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">robotSimType</span>&gt;</span>gazebo_ros_control/DefaultRobotHWSim<span class="tag">&lt;/<span class="name">robotSimType</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">gazebo</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>The simulation in Gazebo is show as following:</p>
+<p>![](D:\Hank\UBC-Summer\Mywork\Daily Report\Report\summer report\Fig10.PNG)</p>
+<p>The left hand is the visual interface of Gazebo, show the result of physical simulation. User could define input function (sin function in this demo) in the right hand.</p>
+<h3 id="User-Interface-based-on-MoveIt"><a href="#User-Interface-based-on-MoveIt" class="headerlink" title="User Interface based on MoveIt!"></a>User Interface based on MoveIt!</h3><p>User interface is based on MoveIt! interface. In this project, we use MoveIt! setup assistant to generate a demo. And according to the Python interface document, we written a script as the user interface.</p>
+<p>One of the simplest MoveIt! user interfaces is through the Python-based Move Group Interface. These wrappers provide functionality for most operations that the average user will likely need, specifically setting joint or pose goals, creating motion plans, moving the robot, adding objects into the environment and attaching/detaching objects from the robot. </p>
+<p>The following steps show how to start it.</p>
+<h4 id="Getting-Started"><a href="#Getting-Started" class="headerlink" title="Getting Started"></a>Getting Started</h4><p>See MoveIt! tutorials:</p>
+<p><a href="http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/getting_started/getting_started.html" target="_blank" rel="noopener">http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/getting_started/getting_started.html</a></p>
+<p>Then, cd to <strong>/ws_moveit/src</strong></p>
+<p>Clone the <strong>iiwa_stack</strong>.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">git <span class="built_in">clone</span> https://github.com/IFL-CAMP/iiwa_stack.git</span></span><br></pre></td></tr></table></figure>
+
+<p>And then, cd to <strong>/iiwa_stack</strong>, make a directory <strong>iiwa_gripper/iiwa_gripper_description</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"><span class="built_in">cd</span> iiwa_stack</span></span><br><span class="line"><span class="meta">$</span><span class="bash">mkdir -p iiwa_gripper/iiwa_gripper_description</span></span><br></pre></td></tr></table></figure>
+
+<p>Move the same folder from Dropbox to it.</p>
+<h4 id="An-IIWA-Equipped-with-the-DLR-Gripper"><a href="#An-IIWA-Equipped-with-the-DLR-Gripper" class="headerlink" title="An IIWA Equipped with the DLR Gripper"></a>An IIWA Equipped with the DLR Gripper</h4><p>Reference: <a href="https://github.com/IFL-CAMP/iiwa_stack/wiki/attachtool" target="_blank" rel="noopener">https://github.com/IFL-CAMP/iiwa_stack/wiki/attachtool</a></p>
+<p>File: ws_moveit/src/iiwa_stack/iiwa_gripper/iiwa_gripper_description/urdf/iiwa_gripper.urdf.xacro</p>
+<p><strong>Note</strong>: If clone from <strong>iiwa_tool_description</strong>, you must replace “<strong>tool</strong>“ to “<strong>gripper</strong>“ in CMackeLists.txt and package.xml</p>
+<h4 id="Create-a-MoveIt-package-with-URDF-Model"><a href="#Create-a-MoveIt-package-with-URDF-Model" class="headerlink" title="Create a MoveIt! package with URDF Model"></a>Create a MoveIt! package with URDF Model</h4><p>Reference:</p>
+<p><a href="https://github.com/IFL-CAMP/iiwa_stack/wiki/createmoveit" target="_blank" rel="noopener">https://github.com/IFL-CAMP/iiwa_stack/wiki/createmoveit</a></p>
+<p><a href="http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/setup_assistant/setup_assistant_tutorial.html" target="_blank" rel="noopener">http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/setup_assistant/setup_assistant_tutorial.html</a></p>
+<p>Directory: ws_moveit/src/iiwa_stack/iiwa_gripper/iiwa_gripper_moveit_config/</p>
+<h5 id="Start-the-MoveIt-Setup-Assistant"><a href="#Start-the-MoveIt-Setup-Assistant" class="headerlink" title="Start the MoveIt! Setup Assistant"></a>Start the MoveIt! Setup Assistant</h5><p>In terminal</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">roslaunch moveit_setup_assistant setup_assistant.launch</span></span><br></pre></td></tr></table></figure>
+
+<p>Click <strong>Browse</strong>, choose iiwa_gripper.urdf.xacro , then click <strong>Load Files</strong>.</p>
+<p>![](D:\Hank\UBC-Summer\Mywork\Daily Report\20180802\figures\1.png)</p>
+<h5 id="Generate-the-self-collision-matrix"><a href="#Generate-the-self-collision-matrix" class="headerlink" title="Generate the self-collision matrix"></a>Generate the self-collision matrix</h5><p>Click on the <strong>Self-Collisions</strong> pane selector on the left-hand side and click on the <strong>Generate Collision Matrix</strong> button.</p>
+<p>![](D:\Hank\UBC-Summer\Mywork\Daily Report\20180802\figures\2.png)</p>
+<h5 id="Add-planning-groups"><a href="#Add-planning-groups" class="headerlink" title="Add planning groups"></a>Add planning groups</h5><p>Click on the <strong>Planning Groups</strong> pane selector and click <strong>Add Group</strong> , select the following:</p>
+<p>![](D:\Hank\UBC-Summer\Mywork\Daily Report\20180802\figures\3.png)</p>
+<p>Then click on <strong>Add Kin. Chain</strong> and select the following:</p>
+<p>![](D:\Hank\UBC-Summer\Mywork\Daily Report\20180802\figures\4.png)</p>
+<p>Save it and add another group like the following:</p>
+<p>![](D:\Hank\UBC-Summer\Mywork\Daily Report\20180802\figures\5.png)</p>
+<h5 id="Generate-package"><a href="#Generate-package" class="headerlink" title="Generate package"></a>Generate package</h5><p>Click on the <strong>Configuration Files</strong> pane, choose a location and name for the ROS package. Then click on <strong>Generate Package</strong> button.</p>
+<h5 id="Note"><a href="#Note" class="headerlink" title="Note:"></a>Note:</h5><p>Then you should rebuild the workspace.</p>
+<p>cd to ws_moveit/ .</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">catkin build</span></span><br><span class="line"><span class="meta">$</span><span class="bash"><span class="built_in">source</span> devel/setup.bash</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Quick-Start-in-RViz"><a href="#Quick-Start-in-RViz" class="headerlink" title="Quick Start in RViz"></a>Quick Start in RViz</h4><p>Reference: <a href="http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/quickstart_in_rviz/quickstart_in_rviz_tutorial.html" target="_blank" rel="noopener">http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/quickstart_in_rviz/quickstart_in_rviz_tutorial.html</a></p>
+<p>cd to ws_moveit/ .</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">roslaunch iiwa_gripper_moveit_config demo.launch</span></span><br></pre></td></tr></table></figure>
+
+<p>where <strong>iiwa_gripper_moveit_config</strong> is the location where you choose to generate the MoveIt! package.</p>
+<p>The result is show as following:</p>
+<p>![](D:\Hank\UBC-Summer\Mywork\Daily Report\Report\summer report\Fig11.png)</p>
+<h2 id="Next-Steps"><a href="#Next-Steps" class="headerlink" title="Next Steps"></a>Next Steps</h2><p>We need to refine the model, add sensor plugin, robot model into Gazebo. The most difficult thing is replacing the model in Gazebo by a real-world robot. We need to figure the sensor data, test the communication between robot and computer and provide lower latency communication. We could also develop the graphical user interface, it should be more robutness, safety. </p>
+<p>![](D:\Hank\UBC-Summer\Mywork\Daily Report\Report\summer report\Fig12.PNG)</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p>[1] mlautman, “Getting Started - moveit_tutorials Kinetic documentation”, [Online]. Available: <a href="http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/getting_started/getting_started.html" target="_blank" rel="noopener">http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/getting_started/getting_started.html</a></p>
+<p>[]2 Nate Koenig, “Gazebo: Tutorial: ROS control”, [Online]. Available: <a href="http://gazebosim.org/tutorials/?tut=ros_control" target="_blank" rel="noopener">http://gazebosim.org/tutorials/?tut=ros_control</a></p>
+<p>[3] amarsbars, “MoveIt! Quickstart in RViz - moveit_tutorials_Kinetic_documentation”, [Online]. Available: <a href="http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/quickstart_in_rviz/quickstart_in_rviz_tutorial.html" target="_blank" rel="noopener">http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/quickstart_in_rviz/quickstart_in_rviz_tutorial.html</a></p>
+<p>[4] SalvoVirga, “IIWA_STACK”, [Online]. Available: <a href="https://github.com/IFL-CAMP/iiwa_stackWest" target="_blank" rel="noopener">https://github.com/IFL-CAMP/iiwa_stackWest</a> System(2010). “Vacuum Bagging Techniques”, [Online]. Available: <a href="http://www.westsystem.com/wp-content/uploads/VacuumBag-7th-Ed.pdf" target="_blank" rel="noopener">http://www.westsystem.com/wp-content/uploads/VacuumBag-7th-Ed.pdf</a></p>
+<h2 id="Appendix"><a href="#Appendix" class="headerlink" title="Appendix"></a>Appendix</h2><h3 id="A-Get-started"><a href="#A-Get-started" class="headerlink" title="A. Get started"></a>A. Get started</h3><h4 id="Software-Requirements"><a href="#Software-Requirements" class="headerlink" title="Software Requirements"></a>Software Requirements</h4><ul>
+<li>ROS Kinetic (Ubuntu 16.04)</li>
+<li>Gazebo 7.x</li>
+<li>MoveIt!</li>
+</ul>
+<h4 id="Setup-Software"><a href="#Setup-Software" class="headerlink" title="Setup Software"></a>Setup Software</h4><p>Create your workspace.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~/YOUR_WORKSPACE/src</span><br></pre></td></tr></table></figure>
+
+<p>The following will attempt to install from Debian any package dependencies not already in your workspace:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~/YOUR_WORKSPACE/src</span><br><span class="line">rosdep install -y --from-paths . --ignore-src --rosdistro kinetic</span><br></pre></td></tr></table></figure>
+
+<p>Clone repository and Build</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">Clone this repository</span></span><br><span class="line">git clone git@gitlab.com:caris-lab/iiwa_gripper.git</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">Build iiwa_gripper</span></span><br><span class="line">cd ~/YOUR_WORKSPACE</span><br><span class="line">catkin config --extend /opt/ros/kinetic</span><br><span class="line">catkin build</span><br></pre></td></tr></table></figure>
+
+<p>Run example in simulation:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source ~/YOUR_WORKSPACE/devel/setup.bash</span><br><span class="line">roslaunch iiwa_gripper_moveit_config demo.launch</span><br></pre></td></tr></table></figure>
+
+<h4 id="Start-Simulation"><a href="#Start-Simulation" class="headerlink" title="Start Simulation"></a>Start Simulation</h4><p>Start MoveIt! motion planning in RViz.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source ~/YOUR_WORKSPACE/devel/setup.bash</span><br><span class="line">roslaunch iiwa_gripper_moveit_config demo.launch</span><br></pre></td></tr></table></figure>
+
+<p>Open a new terminal, run Gazebo simulation.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source ~/YOUR_WORKSPACE/devel/setup.bash</span><br><span class="line">roslaunch iiwa_gripper_gazebo gripper_world.launch</span><br></pre></td></tr></table></figure>
+
+<p>Start Gazebo controller script in a new terminal.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source ~/YOUR_WORKSPACE/devel/setup.bash</span><br><span class="line">roslaunch iiwa_gripper_control gripper_control.launch</span><br></pre></td></tr></table></figure>
+
+<p>Open a new terminal, run Python interface.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">source ~/YOUR_WORKSPACE/devel/setup.bash</span><br><span class="line">roslaunch iiwa_gripper_python_interface iiwa_gripper_python_interface.launch</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">Interface introduction</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Command 1:<span class="built_in">set</span> the joint state, 7 joints <span class="keyword">in</span> <span class="string">"arm"</span> group and 5 joints <span class="keyword">in</span> <span class="string">"DLR_gripper"</span> group.</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Command 2:<span class="built_in">set</span> the pose goal, space coordinates <span class="string">"x"</span>,<span class="string">"y"</span> and <span class="string">"z"</span>.</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Command 3:plan and display a Cartesian path <span class="keyword">in</span> MoveIt!</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Command 4:switch move group, <span class="string">"a"</span> means <span class="string">"arm"</span> group and <span class="string">"g"</span> means <span class="string">"DLR_gripper"</span> group.</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Command e:<span class="built_in">exit</span>.</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="B-Gripper-Control-Guide"><a href="#B-Gripper-Control-Guide" class="headerlink" title="B. Gripper Control Guide"></a>B. Gripper Control Guide</h3><h4 id="Steps"><a href="#Steps" class="headerlink" title="Steps"></a>Steps</h4><h4 id="Create-Catkin-Workspace"><a href="#Create-Catkin-Workspace" class="headerlink" title="Create Catkin Workspace"></a>Create Catkin Workspace</h4><p>Unzip catkin_ws.zip, and cd to it.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unzip catkin_ws.zip</span><br><span class="line">cd catkin_ws</span><br></pre></td></tr></table></figure>
+
+<p>Make all the code in workspace.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">catkin_make</span><br></pre></td></tr></table></figure>
+
+<p>Start the ROS master.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">roscore</span><br></pre></td></tr></table></figure>
+
+<p>Run the serial node in a new terminal.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rosrun rosserial_python serial_node.py _port:=/dev/ttyACM0 _baud:=<span class="number">57600</span></span><br></pre></td></tr></table></figure>
+
+<p>Run the gripper controlling node in a new terminal.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rosrun gripper_control gripper_control</span><br></pre></td></tr></table></figure>
+
+<p>Type the commands in the last terminal. All the commands are the same with the serial commands.</p>
+<h4 id="Commands-Overview"><a href="#Commands-Overview" class="headerlink" title="Commands Overview"></a>Commands Overview</h4><p>There are 8 commands (numbers) in the list. All the commands are orginazied in <strong>switch case</strong>, like that</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">switch [command]&#123;</span><br><span class="line">    case <span class="number">0</span>:</span><br><span class="line">        ...</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">    case <span class="number">1</span>:</span><br><span class="line">        ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Command List</strong></p>
+<p>0 : stop DC motors</p>
+<p>1 : drive DC motors in clockwise from the servo direction</p>
+<p>2 : drive DC motors in anticlockwise from the servo direction</p>
+<p>3 : motor B enable debug</p>
+<p>4 : motor A enable debug</p>
+<p>5 : disable motors debug</p>
+<p>6 : scan motor A I2C bus</p>
+<p>8 : open servo (open the gripper)</p>
+<p>9 : close servo (close the gripper)</p>
+<h4 id="Arduino-Code-Update"><a href="#Arduino-Code-Update" class="headerlink" title="Arduino Code Update"></a>Arduino Code Update</h4><p>Update the Arduino code.</p>
+<h4 id="Sensor-Ports"><a href="#Sensor-Ports" class="headerlink" title="Sensor Ports"></a>Sensor Ports</h4><p>For each ultrasound sensor, we need to definite the <strong>TRIG</strong> pin and the <strong>ECHO</strong> pin. </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const int TRIGPIN1 = <span class="number">3</span>;</span><br><span class="line">const int ECHOPIN1 = <span class="number">2</span>;</span><br><span class="line">const int TRIGPIN2 = <span class="number">5</span>;</span><br><span class="line">const int ECHOPIN2 = <span class="number">4</span>;</span><br></pre></td></tr></table></figure>
+
+<p>As for force sensor</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const int FSR1 = A4; </span><br><span class="line">const int FSR2 = A5;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Read-Ultrasound-Data"><a href="#Read-Ultrasound-Data" class="headerlink" title="Read Ultrasound Data"></a>Read Ultrasound Data</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">long readUS1() &#123;</span><br><span class="line">  // The sensor <span class="keyword">is</span> triggered by a HIGH pulse of <span class="number">10</span> <span class="keyword">or</span> more microseconds.</span><br><span class="line">  // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:</span><br><span class="line">  digitalWrite(TRIGPIN1, LOW);</span><br><span class="line">  delayMicroseconds(<span class="number">2</span>);</span><br><span class="line">  digitalWrite(TRIGPIN1, HIGH);</span><br><span class="line">  delayMicroseconds(<span class="number">10</span>);</span><br><span class="line">  digitalWrite(TRIGPIN1, LOW);</span><br><span class="line"> </span><br><span class="line">  // Read the signal <span class="keyword">from</span> the sensor: a HIGH pulse whose</span><br><span class="line">  // duration <span class="keyword">is</span> the time (<span class="keyword">in</span> microseconds) <span class="keyword">from</span> the sending</span><br><span class="line">  // of the ping to the reception of its echo off of an object.</span><br><span class="line">  pinMode(ECHOPIN1, INPUT);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> pulseIn(ECHOPIN1, HIGH, <span class="number">20</span>*<span class="number">1000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Sensor-Data-Publisher"><a href="#Sensor-Data-Publisher" class="headerlink" title="Sensor Data Publisher"></a>Sensor Data Publisher</h4><p>Definite 4 publisher - ultrasound 1 and 2, force sensor 1 and 2.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ros::Publisher us1(<span class="string">"us1"</span>, &amp;us1_msg);</span><br><span class="line">ros::Publisher us2(<span class="string">"us2"</span>, &amp;us2_msg);</span><br><span class="line">ros::Publisher fsr1(<span class="string">"fsr1"</span>, &amp;fsr1_msg);</span><br><span class="line">ros::Publisher fsr2(<span class="string">"fsr2"</span>, &amp;fsr2_msg);</span><br></pre></td></tr></table></figure>
+
+<h4 id="Note-1"><a href="#Note-1" class="headerlink" title="Note"></a>Note</h4><h5 id="Port-NO"><a href="#Port-NO" class="headerlink" title="Port NO."></a>Port NO.</h5><p>When starting the serial node, the port <strong>/dev/ttyACM0</strong> is depended on your computer.</p>
+<h5 id="Power-requirement"><a href="#Power-requirement" class="headerlink" title="Power requirement."></a>Power requirement.</h5><p>The Arduino board must be plugged in (otherwise there will be some strange things).</p>
+<h5 id="Some-parameters"><a href="#Some-parameters" class="headerlink" title="Some parameters"></a>Some parameters</h5><p><strong>Baud rate</strong>: 115200</p>
+<p><strong>Open servo position</strong>: 200</p>
+<p><strong>Close servo position</strong>: 100</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CARIS/" rel="tag"># CARIS</a>
+          
+            <a href="/tags/Simulation/" rel="tag"># Simulation</a>
+          
+            <a href="/tags/ROS/" rel="tag"># ROS</a>
+          
+            <a href="/tags/Robotics/" rel="tag"># Robotics</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/07/Faster-R-CNN-Towards-Real-Time-Object-Detection-with-Region-Proposal-Networks/" rel="prev" title="Faster R-CNN Towards Real-Time Object Detection with Region Proposal Networks">
+                Faster R-CNN Towards Real-Time Object Detection with Region Proposal Networks <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/touxiang.jpg" alt="Haokun Wang">
+            
+              <p class="site-author-name" itemprop="name">Haokun Wang</p>
+              <p class="site-description motion-element" itemprop="description">I'm a undergraduate student in SUSTech, Shenzhen. (2019)</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Haiik" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:haokunwang.robotics@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Robot-Modelling-and-Simulation-base-on-ROS"><span class="nav-number">1.</span> <span class="nav-text">Robot Modelling and Simulation base on ROS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Related-Work"><span class="nav-number">1.2.</span> <span class="nav-text">Related Work</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Pleating-Protocol"><span class="nav-number">1.2.1.</span> <span class="nav-text">Pleating Protocol</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#End-effector"><span class="nav-number">1.2.2.</span> <span class="nav-text">End-effector</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Robot-Modeling-and-Simulation"><span class="nav-number">1.3.</span> <span class="nav-text">Robot Modeling and Simulation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Unified-Robot-Description-Format-URDF"><span class="nav-number">1.3.1.</span> <span class="nav-text">Unified Robot Description Format (URDF)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Physical-Simulation-and-Model-Controlling"><span class="nav-number">1.3.2.</span> <span class="nav-text">Physical Simulation and Model Controlling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#User-Interface-based-on-MoveIt"><span class="nav-number">1.3.3.</span> <span class="nav-text">User Interface based on MoveIt!</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Getting-Started"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">Getting Started</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#An-IIWA-Equipped-with-the-DLR-Gripper"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">An IIWA Equipped with the DLR Gripper</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Create-a-MoveIt-package-with-URDF-Model"><span class="nav-number">1.3.3.3.</span> <span class="nav-text">Create a MoveIt! package with URDF Model</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Start-the-MoveIt-Setup-Assistant"><span class="nav-number">1.3.3.3.1.</span> <span class="nav-text">Start the MoveIt! Setup Assistant</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Generate-the-self-collision-matrix"><span class="nav-number">1.3.3.3.2.</span> <span class="nav-text">Generate the self-collision matrix</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Add-planning-groups"><span class="nav-number">1.3.3.3.3.</span> <span class="nav-text">Add planning groups</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Generate-package"><span class="nav-number">1.3.3.3.4.</span> <span class="nav-text">Generate package</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Note"><span class="nav-number">1.3.3.3.5.</span> <span class="nav-text">Note:</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Quick-Start-in-RViz"><span class="nav-number">1.3.3.4.</span> <span class="nav-text">Quick Start in RViz</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Next-Steps"><span class="nav-number">1.4.</span> <span class="nav-text">Next Steps</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">1.5.</span> <span class="nav-text">Reference</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Appendix"><span class="nav-number">1.6.</span> <span class="nav-text">Appendix</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#A-Get-started"><span class="nav-number">1.6.1.</span> <span class="nav-text">A. Get started</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Software-Requirements"><span class="nav-number">1.6.1.1.</span> <span class="nav-text">Software Requirements</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Setup-Software"><span class="nav-number">1.6.1.2.</span> <span class="nav-text">Setup Software</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Start-Simulation"><span class="nav-number">1.6.1.3.</span> <span class="nav-text">Start Simulation</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#B-Gripper-Control-Guide"><span class="nav-number">1.6.2.</span> <span class="nav-text">B. Gripper Control Guide</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Steps"><span class="nav-number">1.6.2.1.</span> <span class="nav-text">Steps</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Create-Catkin-Workspace"><span class="nav-number">1.6.2.2.</span> <span class="nav-text">Create Catkin Workspace</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Commands-Overview"><span class="nav-number">1.6.2.3.</span> <span class="nav-text">Commands Overview</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Arduino-Code-Update"><span class="nav-number">1.6.2.4.</span> <span class="nav-text">Arduino Code Update</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sensor-Ports"><span class="nav-number">1.6.2.5.</span> <span class="nav-text">Sensor Ports</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Read-Ultrasound-Data"><span class="nav-number">1.6.2.6.</span> <span class="nav-text">Read Ultrasound Data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sensor-Data-Publisher"><span class="nav-number">1.6.2.7.</span> <span class="nav-text">Sensor Data Publisher</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Note-1"><span class="nav-number">1.6.2.8.</span> <span class="nav-text">Note</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Port-NO"><span class="nav-number">1.6.2.8.1.</span> <span class="nav-text">Port NO.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Power-requirement"><span class="nav-number">1.6.2.8.2.</span> <span class="nav-text">Power requirement.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Some-parameters"><span class="nav-number">1.6.2.8.3.</span> <span class="nav-text">Some parameters</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Haokun Wang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://Hank W.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2018/08/24/Robot-Modeling-and-Simulation-based-on-ROS/';
+          this.page.identifier = '2018/08/24/Robot-Modeling-and-Simulation-based-on-ROS/';
+          this.page.title = 'Robot Modeling and Simulation based on ROS';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://Hank W.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'Haiik# MUST HAVE, Your Github ID',
+            repo: 'web_comments# MUST HAVE, The repo you use to store Gitment comments',
+            
+            lang: "en" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: 'c9063e34fbd93915f44690287bc47018a870d2f8# EITHER this or proxy_gateway, Github access secret token for the Gitment',
+            
+                client_id: '21e6b72e75e2fe1d45f4# MUST HAVE, Github client id for the Gitment'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

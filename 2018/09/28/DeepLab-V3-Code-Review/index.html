@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="English">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Deep Learning,Semantic Image Segmentation,Atrous Convolution,TensorFlow,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="DeepLab V3+ Code ReviewUser ParametersIn ./train.py    Name Default Input Description    num_clones 1  Number of clones to deploy.   clone_on_cpu False  Use CPUs to deploy clones.   num_replicas 1  Nu">
+<meta name="keywords" content="Deep Learning,Semantic Image Segmentation,Atrous Convolution,TensorFlow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DeepLab V3+ Code Review">
+<meta property="og:url" content="http://yoursite.com/2018/09/28/DeepLab-V3-Code-Review/index.html">
+<meta property="og:site_name" content="Haokun Wang">
+<meta property="og:description" content="DeepLab V3+ Code ReviewUser ParametersIn ./train.py    Name Default Input Description    num_clones 1  Number of clones to deploy.   clone_on_cpu False  Use CPUs to deploy clones.   num_replicas 1  Nu">
+<meta property="og:locale" content="English">
+<meta property="og:updated_time" content="2018-09-28T08:38:40.886Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DeepLab V3+ Code Review">
+<meta name="twitter:description" content="DeepLab V3+ Code ReviewUser ParametersIn ./train.py    Name Default Input Description    num_clones 1  Number of clones to deploy.   clone_on_cpu False  Use CPUs to deploy clones.   num_replicas 1  Nu">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/28/DeepLab-V3-Code-Review/">
+
+
+
+
+
+  <title>DeepLab V3+ Code Review | Haokun Wang</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="English">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Haokun Wang</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Department of Computer Science and Engineering, SUSTech.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            Schedule
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/28/DeepLab-V3-Code-Review/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Haokun Wang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haokun Wang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">DeepLab V3+ Code Review</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-28T16:07:49+08:00">
+                2018-09-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Segmentation/" itemprop="url" rel="index">
+                    <span itemprop="name">Segmentation</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/09/28/DeepLab-V3-Code-Review/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/09/28/DeepLab-V3-Code-Review/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="DeepLab-V3-Code-Review"><a href="#DeepLab-V3-Code-Review" class="headerlink" title="DeepLab V3+ Code Review"></a>DeepLab V3+ Code Review</h1><h2 id="User-Parameters"><a href="#User-Parameters" class="headerlink" title="User Parameters"></a>User Parameters</h2><p>In ./train.py</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Default</th>
+<th>Input</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>num_clones</td>
+<td>1</td>
+<td></td>
+<td>Number of clones to deploy.</td>
+</tr>
+<tr>
+<td>clone_on_cpu</td>
+<td>False</td>
+<td></td>
+<td>Use CPUs to deploy clones.</td>
+</tr>
+<tr>
+<td>num_replicas</td>
+<td>1</td>
+<td></td>
+<td>Number of worker replicas.</td>
+</tr>
+<tr>
+<td>startup_delay_steps</td>
+<td>15</td>
+<td></td>
+<td>Number of training steps between replicas startup.</td>
+</tr>
+<tr>
+<td>num_ps_tasks</td>
+<td>0</td>
+<td></td>
+<td>The number of parameter servers. If the value is 0, then the parameters are handled locally by the worker.</td>
+</tr>
+<tr>
+<td>master</td>
+<td>‘’</td>
+<td></td>
+<td>BNS name of the tensorflow server.</td>
+</tr>
+<tr>
+<td>task</td>
+<td>0</td>
+<td></td>
+<td>The task ID.</td>
+</tr>
+<tr>
+<td>train_logdir</td>
+<td>None</td>
+<td>must set</td>
+<td>Where the checkpoint and logs are stored.</td>
+</tr>
+<tr>
+<td>log_steps</td>
+<td>10</td>
+<td></td>
+<td>Display logging information at every log_steps.</td>
+</tr>
+<tr>
+<td>save_interval_secs</td>
+<td>1200</td>
+<td>120000</td>
+<td>How often, in seconds, we save the model to disk.</td>
+</tr>
+<tr>
+<td>save_summaries_secs</td>
+<td>600</td>
+<td>120000</td>
+<td>How often, in seconds, we compute the summaries.</td>
+</tr>
+<tr>
+<td>save_summaries_images</td>
+<td>False</td>
+<td></td>
+<td>Save sample inputs, labels, and semantic predictions as images to summary.</td>
+</tr>
+<tr>
+<td>learning_policy</td>
+<td>‘poly’ in [‘poly’, ‘step’]</td>
+<td></td>
+<td>Learning rate policy for training.</td>
+</tr>
+<tr>
+<td>base_learning_rate</td>
+<td>0.0001</td>
+<td>0.007</td>
+<td>The base learning rate for model training.</td>
+</tr>
+<tr>
+<td>learning_rate_decay_factor</td>
+<td>0.1</td>
+<td></td>
+<td>The rate to decay the base learning rate.</td>
+</tr>
+<tr>
+<td>learning_rate_decay_step</td>
+<td>2000</td>
+<td></td>
+<td>Decay the base learning rate at a fixed step.</td>
+</tr>
+<tr>
+<td>learning_power</td>
+<td>0.9</td>
+<td></td>
+<td>The power value used in the poly learning policy.</td>
+</tr>
+<tr>
+<td>training_number_of_steps</td>
+<td>30000</td>
+<td>30000</td>
+<td>The number of steps used for training</td>
+</tr>
+<tr>
+<td>momentum</td>
+<td>0.9</td>
+<td></td>
+<td>The momentum value to use</td>
+</tr>
+<tr>
+<td>train_batch_size</td>
+<td>8</td>
+<td>4</td>
+<td>The number of images in each batch during training.</td>
+</tr>
+<tr>
+<td>weight_decay</td>
+<td>0.00004</td>
+<td>0.00004</td>
+<td>The value of the weight decay for training.</td>
+</tr>
+<tr>
+<td>train_crop_size</td>
+<td>[513, 513]</td>
+<td>[513,513]</td>
+<td>Image crop size [height, width] during training.</td>
+</tr>
+<tr>
+<td>last_layer_gradient_multiplier</td>
+<td>1.0</td>
+<td></td>
+<td>The gradient multiplier for last layers, which is used to boost the gradient of last layers if the value &gt; 1.</td>
+</tr>
+<tr>
+<td>upsample_logits</td>
+<td>True</td>
+<td></td>
+<td>Upsample logits during training.</td>
+</tr>
+<tr>
+<td>tf_initial_checkpoint</td>
+<td>None</td>
+<td>must set</td>
+<td>The initial checkpoint in tensorflow format.</td>
+</tr>
+<tr>
+<td>initialize_last_layer</td>
+<td>True</td>
+<td></td>
+<td>Initialize the last layer.</td>
+</tr>
+<tr>
+<td>last_layers_contain_logits_only</td>
+<td>False</td>
+<td></td>
+<td>Only consider logits as last layers or not.</td>
+</tr>
+<tr>
+<td>slow_start_step</td>
+<td>0</td>
+<td></td>
+<td>Training model with small learning rate for few steps.</td>
+</tr>
+<tr>
+<td>slow_start_learning_rate</td>
+<td>1e-4</td>
+<td></td>
+<td>Learning rate employed during slow start.</td>
+</tr>
+<tr>
+<td>fine_tune_batch_norm</td>
+<td>True</td>
+<td>False</td>
+<td>Fine tune the batch norm parameters or not.</td>
+</tr>
+<tr>
+<td>min_scale_factor</td>
+<td>0.5</td>
+<td></td>
+<td>Mininum scale factor for data augmentation.</td>
+</tr>
+<tr>
+<td>max_scale_factor</td>
+<td>2</td>
+<td></td>
+<td>Maximum scale factor for data augmentation.</td>
+</tr>
+<tr>
+<td>scale_factor_step_size</td>
+<td>0.25</td>
+<td></td>
+<td>Scale factor step size for data augmentation.</td>
+</tr>
+<tr>
+<td>atrous_rates</td>
+<td>None</td>
+<td>[6,12,18]</td>
+<td>Atrous rates for atrous spatial pyramid pooling.</td>
+</tr>
+<tr>
+<td>output_stride</td>
+<td>16</td>
+<td>16</td>
+<td>The ratio of input to output spatial resolution.</td>
+</tr>
+<tr>
+<td>dataset</td>
+<td>pascal_voc_seg</td>
+<td>pascal_voc_seg</td>
+<td>Name of the segmentation dataset.</td>
+</tr>
+<tr>
+<td>train_split</td>
+<td>train</td>
+<td>train</td>
+<td>Which split of the dataset to be used for training.</td>
+</tr>
+<tr>
+<td>dataset_dir</td>
+<td>None</td>
+<td>must set</td>
+<td>Where the dataset reside.</td>
+</tr>
+</tbody></table>
+<p><code>num_clones</code> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Settings for multi-GPUs/multi-replicas training.</span><br></pre></td></tr></table></figure>
+
+<p><code>base_learning_rate</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Use 0.007 when training on PASCAL augmented training set, train_aug. When fine-tuning on PASCAL trainval set, use learning rate=0.0001.</span><br></pre></td></tr></table></figure>
+
+<p><code>train_batch_size</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">When fine_tune_batch_norm=True, use at least batch size larger than 12 (batch size more than 16 is better). Otherwise, one could use smaller batch size and set fine_tune_batch_norm=False.</span><br></pre></td></tr></table></figure>
+
+<p><code>weight_decay</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">For weight_decay, use 0.00004 for MobileNet-V2 or Xcpetion model variants. Use 0.0001 for ResNet model variants.</span><br></pre></td></tr></table></figure>
+
+<p><code>initialize_last_layer</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set to False if one does not want to re-use the trained classifier weights.</span><br></pre></td></tr></table></figure>
+
+<p><code>fine_tune_batch_norm</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set to True if one wants to fine-tune the batch norm parameters in DeepLabv3. Set to False and use small batch size to save GPU memory.</span><br></pre></td></tr></table></figure>
+
+<p><code>atrous_rates</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">For `xception_65`, use atrous_rates = [12, 24, 36] if output_stride = 8, or rates = [6, 12, 18] if output_stride = 16. For `mobilenet_v2`, use None. Noteone could use different atrous_rates/output_stride during training/evaluation.</span><br></pre></td></tr></table></figure>
+
+<p>In ./common.py</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Default</th>
+<th>Input</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>min_resize_value</td>
+<td>None</td>
+<td></td>
+<td>Desired size of the smaller image side.</td>
+</tr>
+<tr>
+<td>max_resize_value</td>
+<td>None</td>
+<td></td>
+<td>Maximum allowed size of the larger image side.</td>
+</tr>
+<tr>
+<td>resize_factor</td>
+<td>None</td>
+<td></td>
+<td>Resized dimensions are multiple of factor plus one.</td>
+</tr>
+<tr>
+<td>logits_kernel_size</td>
+<td>1</td>
+<td></td>
+<td>The kernel size for the convolutional kernel that generates logits.</td>
+</tr>
+<tr>
+<td>model_variant</td>
+<td>mobilenet_v2</td>
+<td>xception_65</td>
+<td>DeepLab model variant.</td>
+</tr>
+<tr>
+<td>image_pyramid</td>
+<td>None</td>
+<td></td>
+<td>Input scales for multi-scale feature extraction.</td>
+</tr>
+<tr>
+<td>add_image_level_feature</td>
+<td>True</td>
+<td></td>
+<td>Add image level feature.</td>
+</tr>
+<tr>
+<td>image_pooling_crop_size</td>
+<td>None</td>
+<td></td>
+<td>Image pooling crop size [height, width] used in the ASPP module. When value is None, the model performs image pooling with “crop_size”. This flag is useful when one likes to use different image pooling sizes.</td>
+</tr>
+<tr>
+<td>aspp_with_batch_norm</td>
+<td>True</td>
+<td></td>
+<td>Use batch norm parameters for ASPP or not.</td>
+</tr>
+<tr>
+<td>aspp_with_separable_conv</td>
+<td>True</td>
+<td></td>
+<td>Use separable convolution for ASPP or not.</td>
+</tr>
+<tr>
+<td>multi_grid</td>
+<td>None</td>
+<td></td>
+<td>Employ a hierarchy of atrous rates for ResNet.</td>
+</tr>
+<tr>
+<td>depth_multiplier</td>
+<td>1.0</td>
+<td></td>
+<td>Multiplier for the depth (number of channels) for all ‘ ‘convolution ops used in MobileNet.</td>
+</tr>
+<tr>
+<td>decoder_output_stride</td>
+<td>None</td>
+<td>4</td>
+<td>The ratio of input to output spatial resolution when employing decoder to refine segmentation results.</td>
+</tr>
+<tr>
+<td>decoder_use_separable_conv</td>
+<td>None</td>
+<td></td>
+<td>Employ separable convolution for decoder or not.</td>
+</tr>
+<tr>
+<td>merge_method</td>
+<td>‘max’ in [‘max’, ‘avg’]</td>
+<td></td>
+<td>Scheme to merge multi scale features.</td>
+</tr>
+</tbody></table>
+<p><code>model_variant</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">When using &apos;mobilent_v2&apos;, we set atrous_rates = decoder_output_stride = None. When using &apos;xception_65&apos; or &apos;resnet_v1&apos; model variants, we set atrous_rates = [6, 12, 18] (output stride 16) and decoder_output_stride = 4. See core/feature_extractor.py for supported model variants.</span><br></pre></td></tr></table></figure>
+
+<p><code>multi_grid</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Defaults to None. Set multi_grid = [1, 2, 4] when using provided</span><br><span class="line"># &apos;resnet_v1_&#123;50,101&#125;_beta&apos; checkpoints.</span><br></pre></td></tr></table></figure>
+
+<p><code>decoder_output_stride</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">For `xception_65`, use decoder_output_stride = 4. For `mobilenet_v2`, use decoder_output_stride = None.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Run-Logic"><a href="#Run-Logic" class="headerlink" title="Run Logic"></a>Run Logic</h2><p>Firstly, we run train.py to start our training by using following commands.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">CUDA_VISIBLE_DEVICES=0 python deeplab/train.py \</span><br><span class="line">    --logtostderr \</span><br><span class="line">    --num_clones=1 \</span><br><span class="line">    --save_interval_secs=120000 \</span><br><span class="line">    --save_summaries_secs=120000 \</span><br><span class="line">    --train_batch_size=1 \</span><br><span class="line">    --fine_tune_batch_norm=False \</span><br><span class="line">    --model_variant="xception_65" \</span><br><span class="line">    --atrous_rates=6 \</span><br><span class="line">    --atrous_rates=12 \</span><br><span class="line">    --atrous_rates=18 \</span><br><span class="line">    --decoder_output_stride=4 \</span><br><span class="line">    --tf_initial_checkpoint = "$checkpoint_dir" \</span><br><span class="line">    --train_logdir="$log_dir" \</span><br><span class="line">    --dataset_dir="$dataset_dir" \</span><br></pre></td></tr></table></figure>
+
+<p>All the parameters are listed above.</p>
+<h2 id="Code-Analysis"><a href="#Code-Analysis" class="headerlink" title="Code Analysis"></a>Code Analysis</h2><h3 id="train-py"><a href="#train-py" class="headerlink" title="./train.py"></a>./train.py</h3><p>List of imported packages (ignore tensorflow).</p>
+<table>
+<thead>
+<tr>
+<th>Source (where to find package)</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>public</td>
+<td>six</td>
+<td></td>
+</tr>
+<tr>
+<td>deeplab/</td>
+<td>common</td>
+<td></td>
+</tr>
+<tr>
+<td>deeplab/</td>
+<td>model</td>
+<td></td>
+</tr>
+<tr>
+<td>deeplab/datasets</td>
+<td>segmentation_dataset</td>
+<td></td>
+</tr>
+<tr>
+<td>deeplab/utils</td>
+<td>input_generator</td>
+<td></td>
+</tr>
+<tr>
+<td>deeplab/utils</td>
+<td>train_utils</td>
+<td></td>
+</tr>
+<tr>
+<td>slim/deployment</td>
+<td>model_deploy</td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="Four-variables"><a href="#Four-variables" class="headerlink" title="Four variables"></a>Four variables</h4><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>slim</td>
+<td>Object</td>
+<td>tf.contrib.slim</td>
+<td></td>
+</tr>
+<tr>
+<td>prefetch_queue</td>
+<td>Object</td>
+<td>slim.prefetch_queue</td>
+<td></td>
+</tr>
+<tr>
+<td>flags</td>
+<td>Object</td>
+<td>tf.app.flags</td>
+<td>Use to receive input parameters</td>
+</tr>
+<tr>
+<td>FLAGS</td>
+<td>Object</td>
+<td>flags.FLAGS</td>
+<td>Use to receive input parameters</td>
+</tr>
+</tbody></table>
+<h4 id="Two-functions"><a href="#Two-functions" class="headerlink" title="Two functions"></a>Two functions</h4><h5 id="build-deeplab"><a href="#build-deeplab" class="headerlink" title="_build_deeplab"></a>_build_deeplab</h5><p>Parameters:</p>
+<p><code>inputs_queue</code>, <code>outputs_to_num_classes</code>, <code>ignore_label</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># inputs_queue: A prefetch queue for images and labels.</span><br><span class="line"># outputs_to_num_classes: A map from output type to the number of classes. For example, for the task of semantic segmentation with 21 semantic classes, we would have outputs_to_num_classes[&apos;semantic&apos;] = 21.</span><br><span class="line"># ignore_label: Ignore label.</span><br></pre></td></tr></table></figure>
+
+<p>Returns:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">A map of maps from output_type (e.g., semantic prediction) to a</span><br><span class="line">  dictionary of multi-scale logits names to logits. For each output_type,</span><br><span class="line">  the dictionary has keys which correspond to the scales and values which</span><br><span class="line">  correspond to the logits. For example, if `scales` equals [1.0, 1.5],</span><br><span class="line">  then the keys would include &apos;merged_logits&apos;, &apos;logits_1.00&apos; and</span><br><span class="line">  &apos;logits_1.50&apos;.</span><br></pre></td></tr></table></figure>
+
+<p>Structure:</p>
+<p>Firstly, dequeue images and labels, store in <code>samples</code>.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">samples = inputs_queue.dequeue()</span><br></pre></td></tr></table></figure>
+
+<p>Then, add name to input and label nodes so we can add to summary.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">samples[common.IMAGE] = tf.identity(</span><br><span class="line">    samples[common.IMAGE], name=common.IMAGE)</span><br><span class="line">samples[common.LABEL] = tf.identity(</span><br><span class="line">    samples[common.LABEL], name=common.LABEL)</span><br></pre></td></tr></table></figure>
+
+<p>where <code>common.IMAGE</code> is a string ‘image’ and <code>common.LABEL</code> is a string ‘label’.</p>
+<hr>
+<p>Next, create an instantiation of a class called <code>ModelOptions</code>, which defined in <code>common</code>.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">outputs_to_scales_to_logits = model.multi_scale_logits(</span><br><span class="line">    samples[common.IMAGE],</span><br><span class="line">    model_options=model_options,</span><br><span class="line">    image_pyramid=FLAGS.image_pyramid,</span><br><span class="line">    weight_decay=FLAGS.weight_decay,</span><br><span class="line">    is_training=<span class="literal">True</span>,</span><br><span class="line">    fine_tune_batch_norm=FLAGS.fine_tune_batch_norm)</span><br></pre></td></tr></table></figure>
+
+<p>And <code>outputs_to_scales_to_logits</code> is a named tuple like that</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">outputs_to_scales_to_logits = </span><br><span class="line">(&apos;ModelOptions&apos;, [</span><br><span class="line">    &apos;outputs_to_num_classes&apos;,</span><br><span class="line">    &apos;crop_size&apos;,</span><br><span class="line">    &apos;atrous_rates&apos;,</span><br><span class="line">    &apos;output_stride&apos;,</span><br><span class="line">    &apos;merge_method&apos;,</span><br><span class="line">    &apos;add_image_level_feature&apos;,</span><br><span class="line">    &apos;image_pooling_crop_size&apos;,</span><br><span class="line">    &apos;aspp_with_batch_norm&apos;,</span><br><span class="line">    &apos;aspp_with_separable_conv&apos;,</span><br><span class="line">    &apos;multi_grid&apos;,</span><br><span class="line">    &apos;decoder_output_stride&apos;,</span><br><span class="line">    &apos;decoder_use_separable_conv&apos;,</span><br><span class="line">    &apos;logits_kernel_size&apos;,</span><br><span class="line">    &apos;model_variant&apos;,</span><br><span class="line">    &apos;depth_multiplier&apos;,</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+
+<p>The value of each argument is show as following.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">outputs_to_num_classes,</span><br><span class="line">crop_size,</span><br><span class="line">atrous_rates,</span><br><span class="line">output_stride,</span><br><span class="line">FALGS.merge_method,</span><br><span class="line">FLAGS.add_image_level_feature,</span><br><span class="line">FLAGS.image_pooling_crop_size,</span><br><span class="line">FLAGS.aspp_with_batch_norm,</span><br><span class="line">FLAGS.aspp_with_separable_conv,</span><br><span class="line">FLAGS.multi_grid,</span><br><span class="line">FLAGS.decoder_output_stride,</span><br><span class="line">FLAGS.decoder_use_separable_conv,</span><br><span class="line">FLAGS.logits_kernel_size,</span><br><span class="line">FLAGS.model_variant,</span><br><span class="line">FLAGS.depth_multiplier</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>Then, calculate multi-scale logits by using <code>multi_scale_logits</code> function in <code>model</code>.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">outputs_to_scales_to_logits = model.multi_scale_logits(</span><br><span class="line">    samples[common.IMAGE],</span><br><span class="line">    model_options=model_options,</span><br><span class="line">    image_pyramid=FLAGS.image_pyramid,</span><br><span class="line">    weight_decay=FLAGS.weight_decay,</span><br><span class="line">    is_training=<span class="literal">True</span>,</span><br><span class="line">    fine_tune_batch_norm=FLAGS.fine_tune_batch_norm)</span><br></pre></td></tr></table></figure>
+
+<p>What <code>multi_scale_logits</code> function does is show after.</p>
+<p>The returns <code>outputs_to_scales_to_logits</code> is</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">A map of maps from output_type (e.g.,</span><br><span class="line">  semantic prediction) to a dictionary of multi-scale logits names to</span><br><span class="line">  logits. For each output_type, the dictionary has keys which</span><br><span class="line">  correspond to the scales and values which correspond to the logits.</span><br><span class="line">  For example, if `scales` equals [1.0, 1.5], then the keys would</span><br><span class="line">  include &apos;merged_logits&apos;, &apos;logits_1.00&apos; and &apos;logits_1.50&apos;.</span><br></pre></td></tr></table></figure>
+
+<p>There will return errors </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">If model_options doesn&apos;t specify crop_size and its</span><br><span class="line">  add_image_level_feature = True, since add_image_level_feature requires</span><br><span class="line">  crop_size information.</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>Next, add name to graph node so we can add to summary.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">output_type_dict = outputs_to_scales_to_logits[common.OUTPUT_TYPE]</span><br><span class="line">output_type_dict[model.MERGED_LOGITS_SCOPE] = tf.identity(</span><br><span class="line">    output_type_dict[model.MERGED_LOGITS_SCOPE],</span><br><span class="line">    name=common.OUTPUT_TYPE)</span><br></pre></td></tr></table></figure>
+
+<p>where <code>common.OUTPUT_TYPE</code> is a string ‘semantic’ and <code>model.MERGED_LOGITS_SCOPE</code> is a string ‘merged_logits’.</p>
+<hr>
+<p>Finally, for <code>output</code> and <code>num_classes</code> in <code>outputs_to_num_classes</code>, call <code>add_softmax_cross_entropy_loss_for_each_scale</code> function to <strong>do something?</strong></p>
+<h5 id="main"><a href="#main" class="headerlink" title="main"></a>main</h5><p>Parameters:</p>
+<p><code>unused_argv</code></p>
+<p>Returns:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">No return.</span><br></pre></td></tr></table></figure>
+
+<p>Structure:</p>
+<p>Firstly, set the level of log.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.logging.set_verbosity(tf.logging.INFO)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;&quot;&quot;Sets the threshold for what messages will be logged.&quot;&quot;&quot;</span><br><span class="line">message level: &apos;FATAL&apos;,&apos;ERROR&apos;,&apos;WARN&apos;,&apos;INFO&apos;,&apos;DEBUG&apos;</span><br></pre></td></tr></table></figure>
+
+<p>And set up deployment (i.e., multi-GPUs and/or multi-replicas), and judge the batch size.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">config = model_deploy.DeploymentConfig(</span><br><span class="line">    num_clones=FLAGS.num_clones,</span><br><span class="line">    clone_on_cpu=FLAGS.clone_on_cpu,</span><br><span class="line">    replica_id=FLAGS.task,</span><br><span class="line">    num_replicas=FLAGS.num_replicas,</span><br><span class="line">    num_ps_tasks=FLAGS.num_ps_tasks)</span><br><span class="line"><span class="keyword">assert</span> FLAGS.train_batch_size % config.num_clones == <span class="number">0</span>, (</span><br><span class="line">      <span class="string">'Training batch size not divisble by number of clones (GPUs).'</span>)</span><br><span class="line">clone_batch_size = FLAGS.train_batch_size // config.num_clones</span><br></pre></td></tr></table></figure>
+
+<p>where num_clones is the number of used GPUs, clone_on_cpu is used to judge if use CPU and others are show above.</p>
+<hr>
+<p>Then, get dataset-dependent information.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dataset = segmentation_dataset.get_dataset(</span><br><span class="line">    FLAGS.dataset, FLAGS.train_split, dataset_dir=FLAGS.dataset_dir)</span><br></pre></td></tr></table></figure>
+
+<p>Make directory to save training log and info.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tf.gfile.MakeDirs(FLAGS.train_logdir)</span><br><span class="line">tf.logging.info(<span class="string">'Training on %s set'</span>, FLAGS.train_split)</span><br></pre></td></tr></table></figure>
+
+<p>Next, use get function in input_generator to get a dictionary of batched Tensors for semantic segmentation.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">samples = input_generator.get(</span><br><span class="line">    dataset,</span><br><span class="line">    FLAGS.train_crop_size,</span><br><span class="line">    clone_batch_size,</span><br><span class="line">    min_resize_value=FLAGS.min_resize_value,</span><br><span class="line">    max_resize_value=FLAGS.max_resize_value,</span><br><span class="line">    resize_factor=FLAGS.resize_factor,</span><br><span class="line">    min_scale_factor=FLAGS.min_scale_factor,</span><br><span class="line">    max_scale_factor=FLAGS.max_scale_factor,</span><br><span class="line">    scale_factor_step_size=FLAGS.scale_factor_step_size,</span><br><span class="line">    dataset_split=FLAGS.train_split,</span><br><span class="line">    is_training=<span class="literal">True</span>,</span><br><span class="line">    model_variant=FLAGS.model_variant)</span><br></pre></td></tr></table></figure>
+
+<p>And fetch samples as inputs in queue structure.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">inputs_queue = prefetch_queue.prefetch_queue(</span><br><span class="line">    samples, capacity=<span class="number">128</span> * config.num_clones)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>Then, create the global step on the device storing the variables.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">global_step = tf.train.get_or_create_global_step()</span><br></pre></td></tr></table></figure>
+
+<p>Call _build_deeplab function to define the model, create clones and gather update ops from the first clone.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">model_fn = _build_deeplab</span><br><span class="line">model_args = (inputs_queue, &#123;</span><br><span class="line">    common.OUTPUT_TYPE: dataset.num_classes</span><br><span class="line">&#125;, dataset.ignore_label)</span><br><span class="line">clones = model_deploy.create_clones(config, model_fn, args=model_args)</span><br><span class="line">first_clone_scope = config.clone_scope(<span class="number">0</span>)</span><br><span class="line">update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS, first_clone_scope)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>(Options part) </p>
+<p>Gather initial summaries.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">summaries = set(tf.get_collection(tf.GraphKeys.SUMMARIES))</span><br></pre></td></tr></table></figure>
+
+<p>All the summary ops are saved in a collection whose name is <code>tf.GraphKeys.SUMMARIES</code>.</p>
+<p>Then add summaries for model variables.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> model_var <span class="keyword">in</span> slim.get_model_variables():</span><br><span class="line">  summaries.add(tf.summary.histogram(model_var.op.name, model_var))</span><br></pre></td></tr></table></figure>
+
+<p>And add summaries for images, labels, semantic predictions.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> FLAGS.save_summaries_images:</span><br><span class="line">  summary_image = graph.get_tensor_by_name(</span><br><span class="line">      (<span class="string">'%s/%s:0'</span> % (first_clone_scope, common.IMAGE)).strip(<span class="string">'/'</span>))</span><br><span class="line">  summaries.add(</span><br><span class="line">      tf.summary.image(<span class="string">'samples/%s'</span> % common.IMAGE, summary_image))</span><br><span class="line"></span><br><span class="line">  first_clone_label = graph.get_tensor_by_name(</span><br><span class="line">      (<span class="string">'%s/%s:0'</span> % (first_clone_scope, common.LABEL)).strip(<span class="string">'/'</span>))</span><br><span class="line">  <span class="comment"># Scale up summary image pixel values for better visualization.</span></span><br><span class="line">  pixel_scaling = max(<span class="number">1</span>, <span class="number">255</span> // dataset.num_classes)</span><br><span class="line">  summary_label = tf.cast(first_clone_label * pixel_scaling, tf.uint8)</span><br><span class="line">  summaries.add(</span><br><span class="line">      tf.summary.image(<span class="string">'samples/%s'</span> % common.LABEL, summary_label))</span><br><span class="line"></span><br><span class="line">  first_clone_output = graph.get_tensor_by_name(</span><br><span class="line">      (<span class="string">'%s/%s:0'</span> % (first_clone_scope, common.OUTPUT_TYPE)).strip(<span class="string">'/'</span>))</span><br><span class="line">  predictions = tf.expand_dims(tf.argmax(first_clone_output, <span class="number">3</span>), <span class="number">-1</span>)</span><br><span class="line"></span><br><span class="line">  summary_predictions = tf.cast(predictions * pixel_scaling, tf.uint8)</span><br><span class="line">  summaries.add(</span><br><span class="line">      tf.summary.image(</span><br><span class="line">          <span class="string">'samples/%s'</span> % common.OUTPUT_TYPE, summary_predictions))</span><br></pre></td></tr></table></figure>
+
+<p>Add summaries for losses.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> loss <span class="keyword">in</span> tf.get_collection(tf.GraphKeys.LOSSES, first_clone_scope):</span><br><span class="line">  summaries.add(tf.summary.scalar(<span class="string">'losses/%s'</span> % loss.op.name, loss))</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>Build the optimizer based on the device specification.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> tf.device(config.optimizer_device()):</span><br><span class="line">  learning_rate = train_utils.get_model_learning_rate(</span><br><span class="line">      FLAGS.learning_policy, FLAGS.base_learning_rate,</span><br><span class="line">      FLAGS.learning_rate_decay_step, FLAGS.learning_rate_decay_factor,</span><br><span class="line">      FLAGS.training_number_of_steps, FLAGS.learning_power,</span><br><span class="line">      FLAGS.slow_start_step, FLAGS.slow_start_learning_rate)</span><br><span class="line">  optimizer = tf.train.MomentumOptimizer(learning_rate, FLAGS.momentum)</span><br><span class="line">  summaries.add(tf.summary.scalar(<span class="string">'learning_rate'</span>, learning_rate))</span><br></pre></td></tr></table></figure>
+
+<p>Note that <code>tf.train.MomentumOptimizer.__init__(learning_rate, momentum, use_locking=False, name=&#39;Momentum&#39;)</code>. Construct a new Momentum optimizer.</p>
+<h5 id="Args"><a href="#Args" class="headerlink" title="Args:"></a>Args:</h5><ul>
+<li><strong>learning_rate</strong>: A <code>Tensor</code> or a floating point value. The learning rate.</li>
+<li><strong>momentum</strong>: A <code>Tensor</code> or a floating point value. The momentum.</li>
+<li><strong>use_locking</strong>: If <code>True</code> use locks for update operations.</li>
+<li><strong>name</strong>: Optional name prefix for the operations created when applying gradients. Defaults to “Momentum”.</li>
+</ul>
+<p>And <code>get_model_learning_rate(learning_policy, base_learning_rate, learning_rate_decay_step, learning_rate_decay_factor, training_number_of_steps, learning_power, slow_start_step, slow_start_learning_rate)</code>. Gets model’s learning rate.</p>
+<p><strong>Args:</strong></p>
+<ul>
+<li><strong>learning_policy</strong>: Learning rate policy for training.</li>
+<li><strong>base_learning_rate</strong>: The base learning rate for model training.</li>
+<li><strong>learning_rate_decay_step</strong>: Decay the base learning rate at a fixed step.</li>
+<li><strong>learning_rate_decay_factor</strong>: The rate to decay the base learning rate.</li>
+<li><strong>training_number_of_steps</strong>: Number of steps for training.</li>
+<li><strong>learning_power</strong>: Power used for ‘poly’ learning policy.</li>
+<li><strong>slow_start_step</strong>: Training model with small learning rate for the first few steps.</li>
+<li><strong>slow_start_learning_rate</strong>: The learning rate employed during slow start.</li>
+</ul>
+<hr>
+<p>Then, calculate total loss, gradients and variables.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">total_loss, grads_and_vars = model_deploy.optimize_clones(</span><br><span class="line">    clones, optimizer)</span><br><span class="line">total_loss = tf.check_numerics(total_loss, <span class="string">'Loss is inf or nan.'</span>)</span><br><span class="line">summaries.add(tf.summary.scalar(<span class="string">'total_loss'</span>, total_loss))</span><br></pre></td></tr></table></figure>
+
+<p>And also modify the gradients for biases and last layer variables.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">last_layers = model.get_extra_layer_scopes(</span><br><span class="line">    FLAGS.last_layers_contain_logits_only)</span><br><span class="line">grad_mult = train_utils.get_model_gradient_multipliers(</span><br><span class="line">    last_layers, FLAGS.last_layer_gradient_multiplier)</span><br><span class="line"><span class="keyword">if</span> grad_mult:</span><br><span class="line">  grads_and_vars = slim.learning.multiply_gradients(</span><br><span class="line">      grads_and_vars, grad_mult)</span><br></pre></td></tr></table></figure>
+
+<p>And create gradient update operation node.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">grad_updates = optimizer.apply_gradients(</span><br><span class="line">    grads_and_vars, global_step=global_step)</span><br><span class="line">update_ops.append(grad_updates)</span><br><span class="line">update_op = tf.group(*update_ops)</span><br><span class="line"><span class="keyword">with</span> tf.control_dependencies([update_op]):</span><br><span class="line">  train_tensor = tf.identity(total_loss, name=<span class="string">'train_op'</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>Then, add the summaries from the first clone. These contain the summaries created by <code>model_fn</code> and either <code>optimize_clones()</code> or <code>_gather_clone_loss()</code>. And merge all summaries together.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">summaries |= set(</span><br><span class="line">    tf.get_collection(tf.GraphKeys.SUMMARIES, first_clone_scope))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Merge all summaries together.</span></span><br><span class="line">summary_op = tf.summary.merge(list(summaries))</span><br></pre></td></tr></table></figure>
+
+<p>Soft placement allow placing on CPU ops without GPU implementation.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">session_config = tf.ConfigProto(</span><br><span class="line">    allow_soft_placement=<span class="literal">True</span>, log_device_placement=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>Finally, start the training.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">slim.learning.train(</span><br><span class="line">    train_tensor,</span><br><span class="line">    logdir=FLAGS.train_logdir,</span><br><span class="line">    log_every_n_steps=FLAGS.log_steps,</span><br><span class="line">    master=FLAGS.master,</span><br><span class="line">    number_of_steps=FLAGS.training_number_of_steps,</span><br><span class="line">    is_chief=(FLAGS.task == <span class="number">0</span>),</span><br><span class="line">    session_config=session_config,</span><br><span class="line">    startup_delay_steps=startup_delay_steps,</span><br><span class="line">    init_fn=train_utils.get_model_init_fn(</span><br><span class="line">        FLAGS.train_logdir,</span><br><span class="line">        FLAGS.tf_initial_checkpoint,</span><br><span class="line">        FLAGS.initialize_last_layer,</span><br><span class="line">        last_layers,</span><br><span class="line">        ignore_missing_vars=<span class="literal">True</span>),</span><br><span class="line">    summary_op=summary_op,</span><br><span class="line">    save_summaries_secs=FLAGS.save_summaries_secs,</span><br><span class="line">    save_interval_secs=FLAGS.save_interval_secs)</span><br></pre></td></tr></table></figure>
+
+<p>The <code>train(...)</code> function is a model training tool in <code>slim</code> package.</p>
+<p><strong>Args:</strong></p>
+<ul>
+<li><strong>train_op</strong>: A <code>Tensor</code> that, when executed, will apply the gradients and return the loss value.</li>
+<li><strong>logdir</strong>: The directory where training logs are written to. If None, model checkpoints and summaries will not be written.</li>
+<li><strong>logdir_step_fn</strong>: The function to call in order to execute a single gradient step. The function must have take exactly four arguments: the current session, the <code>train_op</code> <code>Tensor</code>, a global step <code>Tensor</code> and a dictionary.        </li>
+<li><strong>train_setp_kwargs</strong>: A dictionary which is passed to the <code>train_step_fn</code>. By default, two <code>Boolean</code>, scalar ops called “should_stop” and “should_log” are provided.        </li>
+<li><strong>log_every_n_steps</strong>: The frequency, in terms of global steps, that the loss and global step are logged.        </li>
+<li><strong>graph</strong>: The graph to pass to the supervisor. If no graph is supplied the default graph is used.</li>
+<li><strong>master</strong>: The address of the tensorflow master.        </li>
+<li><strong>is_chief</strong>: Specifies whether or not the training is being run by the primary replica during replica training.        </li>
+<li><strong>global_step</strong>: The <code>Tensor</code> representing the global step. If left as <code>None</code>, then training_util.get_or_create_global_step(), that is, tf.contrib.framework.global_step() is used.</li>
+<li><strong>number_of_steps</strong>: The max number of gradient steps to take during training, as measured by ‘global_step’: training will stop if global_step is greater than ‘number_of_steps’. If the value is left as None, training proceeds indefinitely.        </li>
+<li><strong>init_op</strong>: The initialization operation. If left to its default value, then the session is initialized by calling <code>tf.global_variables_initializer()</code>.        </li>
+<li><strong>init_feed_dict</strong>: A feed dictionary to use when executing the <code>init_op</code>.        </li>
+<li><strong>local_init_op</strong>: The local initialization operation. If left to its default value, then the session is initialized by calling <code>tf.local_variables_initializer()</code> and <code>tf.tables_initializer()</code>.</li>
+<li><strong>init_fn</strong>: An optional callable to be executed after <code>init_op</code> is called. The callable must accept one argument, the session being initialized.        </li>
+<li><strong>ready_op</strong>: Operation to check if the model is ready to use. If left to its default value, then the session checks for readiness by calling <code>tf.report_uninitialized_variables()</code>.        </li>
+<li><strong>summary_op</strong>: The summary operation.        </li>
+<li><strong>save_summaries_secs</strong>: How often, in seconds, to save summaries.        </li>
+<li><strong>summary_writer</strong>: <code>SummaryWriter</code> to use.  Can be <code>None</code> to indicate that no summaries should be written. If unset, we create a SummaryWriter.        </li>
+<li><strong>startup_delay_steps</strong>: The number of steps to wait for before beginning. Note that this must be 0 if a sync_optimizer is supplied.        </li>
+<li><strong>saver</strong>: Saver to save checkpoints. If None, a default one will be created and used.        </li>
+<li><strong>save_interval_secs</strong>: How often, in seconds, to save the model to <code>logdir</code>.        </li>
+<li><strong>sync_optimizer</strong>: an instance of <code>tf.train.SyncReplicasOptimizer</code>, or a list of them. If the argument is supplied, gradient updates will be synchronous. If left as <code>None</code>, gradient updates will be asynchronous.       </li>
+<li><strong>session_config</strong>: An instance of <code>tf.ConfigProto</code> that will be used to configure the <code>Session</code>. If left as <code>None</code>, the default will be used.        </li>
+<li><strong>session_wrapper</strong>: A function that takes a <code>tf.Session</code> object as the only argument and returns a wrapped session object that has the same methods that the original object has, or <code>None</code>. If not <code>None</code>, the wrapped object will be used for training.       </li>
+<li><strong>trace_every_n_steps</strong>: produce and save a <code>Timeline</code> in Chrome trace format and add it to the summaries every <code>trace_every_n_steps</code>. If None, no trace information will be produced or saved.        </li>
+<li><strong>ignore_live_threads</strong>: If <code>True</code> ignores threads that remain running after a grace period when stopping the supervisor, instead of raising a RuntimeError.</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Deep-Learning/" rel="tag"># Deep Learning</a>
+          
+            <a href="/tags/Semantic-Image-Segmentation/" rel="tag"># Semantic Image Segmentation</a>
+          
+            <a href="/tags/Atrous-Convolution/" rel="tag"># Atrous Convolution</a>
+          
+            <a href="/tags/TensorFlow/" rel="tag"># TensorFlow</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/07/Faster-R-CNN-Towards-Real-Time-Object-Detection-with-Region-Proposal-Networks/" rel="next" title="Faster R-CNN Towards Real-Time Object Detection with Region Proposal Networks">
+                <i class="fa fa-chevron-left"></i> Faster R-CNN Towards Real-Time Object Detection with Region Proposal Networks
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/01/hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/touxiang.jpg" alt="Haokun Wang">
+            
+              <p class="site-author-name" itemprop="name">Haokun Wang</p>
+              <p class="site-description motion-element" itemprop="description">I'm a undergraduate student in SUSTech, Shenzhen. (2019)</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Haiik" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:haokunwang.robotics@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#DeepLab-V3-Code-Review"><span class="nav-number">1.</span> <span class="nav-text">DeepLab V3+ Code Review</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#User-Parameters"><span class="nav-number">1.1.</span> <span class="nav-text">User Parameters</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Run-Logic"><span class="nav-number">1.2.</span> <span class="nav-text">Run Logic</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Code-Analysis"><span class="nav-number">1.3.</span> <span class="nav-text">Code Analysis</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#train-py"><span class="nav-number">1.3.1.</span> <span class="nav-text">./train.py</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Four-variables"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">Four variables</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Two-functions"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">Two functions</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#build-deeplab"><span class="nav-number">1.3.1.2.1.</span> <span class="nav-text">_build_deeplab</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#main"><span class="nav-number">1.3.1.2.2.</span> <span class="nav-text">main</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Args"><span class="nav-number">1.3.1.2.3.</span> <span class="nav-text">Args:</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Haokun Wang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://Hank W.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2018/09/28/DeepLab-V3-Code-Review/';
+          this.page.identifier = '2018/09/28/DeepLab-V3-Code-Review/';
+          this.page.title = 'DeepLab V3+ Code Review';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://Hank W.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'Haiik# MUST HAVE, Your Github ID',
+            repo: 'web_comments# MUST HAVE, The repo you use to store Gitment comments',
+            
+            lang: "en" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: 'c9063e34fbd93915f44690287bc47018a870d2f8# EITHER this or proxy_gateway, Github access secret token for the Gitment',
+            
+                client_id: '21e6b72e75e2fe1d45f4# MUST HAVE, Github client id for the Gitment'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
