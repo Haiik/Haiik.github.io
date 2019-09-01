@@ -300,7 +300,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Haokun Wang">
       <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/touxiang.jpg">
+      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -455,10 +455,10 @@
 <p><a href="http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/getting_started/getting_started.html" target="_blank" rel="noopener">http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/getting_started/getting_started.html</a></p>
 <p>Then, cd to <strong>/ws_moveit/src</strong></p>
 <p>Clone the <strong>iiwa_stack</strong>.</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">git <span class="built_in">clone</span> https://github.com/IFL-CAMP/iiwa_stack.git</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>git clone https://github.com/IFL-CAMP/iiwa_stack.git</span><br></pre></td></tr></table></figure>
 
 <p>And then, cd to <strong>/iiwa_stack</strong>, make a directory <strong>iiwa_gripper/iiwa_gripper_description</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"><span class="built_in">cd</span> iiwa_stack</span></span><br><span class="line"><span class="meta">$</span><span class="bash">mkdir -p iiwa_gripper/iiwa_gripper_description</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>cd iiwa_stack</span><br><span class="line"><span class="meta">$</span>mkdir -p iiwa_gripper/iiwa_gripper_description</span><br></pre></td></tr></table></figure>
 
 <p>Move the same folder from Dropbox to it.</p>
 <h4 id="An-IIWA-Equipped-with-the-DLR-Gripper"><a href="#An-IIWA-Equipped-with-the-DLR-Gripper" class="headerlink" title="An IIWA Equipped with the DLR Gripper"></a>An IIWA Equipped with the DLR Gripper</h4><p>Reference: <a href="https://github.com/IFL-CAMP/iiwa_stack/wiki/attachtool" target="_blank" rel="noopener">https://github.com/IFL-CAMP/iiwa_stack/wiki/attachtool</a></p>
@@ -469,7 +469,7 @@
 <p><a href="http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/setup_assistant/setup_assistant_tutorial.html" target="_blank" rel="noopener">http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/setup_assistant/setup_assistant_tutorial.html</a></p>
 <p>Directory: ws_moveit/src/iiwa_stack/iiwa_gripper/iiwa_gripper_moveit_config/</p>
 <h5 id="Start-the-MoveIt-Setup-Assistant"><a href="#Start-the-MoveIt-Setup-Assistant" class="headerlink" title="Start the MoveIt! Setup Assistant"></a>Start the MoveIt! Setup Assistant</h5><p>In terminal</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">roslaunch moveit_setup_assistant setup_assistant.launch</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>roslaunch moveit_setup_assistant setup_assistant.launch</span><br></pre></td></tr></table></figure>
 
 <p>Click <strong>Browse</strong>, choose iiwa_gripper.urdf.xacro , then click <strong>Load Files</strong>.</p>
 <p>![](D:\Hank\UBC-Summer\Mywork\Daily Report\20180802\figures\1.png)</p>
@@ -484,11 +484,11 @@
 <h5 id="Generate-package"><a href="#Generate-package" class="headerlink" title="Generate package"></a>Generate package</h5><p>Click on the <strong>Configuration Files</strong> pane, choose a location and name for the ROS package. Then click on <strong>Generate Package</strong> button.</p>
 <h5 id="Note"><a href="#Note" class="headerlink" title="Note:"></a>Note:</h5><p>Then you should rebuild the workspace.</p>
 <p>cd to ws_moveit/ .</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">catkin build</span></span><br><span class="line"><span class="meta">$</span><span class="bash"><span class="built_in">source</span> devel/setup.bash</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>catkin build</span><br><span class="line"><span class="meta">$</span>source devel/setup.bash</span><br></pre></td></tr></table></figure>
 
 <h4 id="Quick-Start-in-RViz"><a href="#Quick-Start-in-RViz" class="headerlink" title="Quick Start in RViz"></a>Quick Start in RViz</h4><p>Reference: <a href="http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/quickstart_in_rviz/quickstart_in_rviz_tutorial.html" target="_blank" rel="noopener">http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/quickstart_in_rviz/quickstart_in_rviz_tutorial.html</a></p>
 <p>cd to ws_moveit/ .</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">roslaunch iiwa_gripper_moveit_config demo.launch</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>roslaunch iiwa_gripper_moveit_config demo.launch</span><br></pre></td></tr></table></figure>
 
 <p>where <strong>iiwa_gripper_moveit_config</strong> is the location where you choose to generate the MoveIt! package.</p>
 <p>The result is show as following:</p>
@@ -511,7 +511,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~/YOUR_WORKSPACE/src</span><br><span class="line">rosdep install -y --from-paths . --ignore-src --rosdistro kinetic</span><br></pre></td></tr></table></figure>
 
 <p>Clone repository and Build</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">Clone this repository</span></span><br><span class="line">git clone git@gitlab.com:caris-lab/iiwa_gripper.git</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">Build iiwa_gripper</span></span><br><span class="line">cd ~/YOUR_WORKSPACE</span><br><span class="line">catkin config --extend /opt/ros/kinetic</span><br><span class="line">catkin build</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>Clone this repository</span><br><span class="line">git clone git@gitlab.com:caris-lab/iiwa_gripper.git</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>Build iiwa_gripper</span><br><span class="line">cd ~/YOUR_WORKSPACE</span><br><span class="line">catkin config --extend /opt/ros/kinetic</span><br><span class="line">catkin build</span><br></pre></td></tr></table></figure>
 
 <p>Run example in simulation:</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source ~/YOUR_WORKSPACE/devel/setup.bash</span><br><span class="line">roslaunch iiwa_gripper_moveit_config demo.launch</span><br></pre></td></tr></table></figure>
@@ -526,7 +526,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source ~/YOUR_WORKSPACE/devel/setup.bash</span><br><span class="line">roslaunch iiwa_gripper_control gripper_control.launch</span><br></pre></td></tr></table></figure>
 
 <p>Open a new terminal, run Python interface.</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">source ~/YOUR_WORKSPACE/devel/setup.bash</span><br><span class="line">roslaunch iiwa_gripper_python_interface iiwa_gripper_python_interface.launch</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">Interface introduction</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Command 1:<span class="built_in">set</span> the joint state, 7 joints <span class="keyword">in</span> <span class="string">"arm"</span> group and 5 joints <span class="keyword">in</span> <span class="string">"DLR_gripper"</span> group.</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Command 2:<span class="built_in">set</span> the pose goal, space coordinates <span class="string">"x"</span>,<span class="string">"y"</span> and <span class="string">"z"</span>.</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Command 3:plan and display a Cartesian path <span class="keyword">in</span> MoveIt!</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Command 4:switch move group, <span class="string">"a"</span> means <span class="string">"arm"</span> group and <span class="string">"g"</span> means <span class="string">"DLR_gripper"</span> group.</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Command e:<span class="built_in">exit</span>.</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">source ~/YOUR_WORKSPACE/devel/setup.bash</span><br><span class="line">roslaunch iiwa_gripper_python_interface iiwa_gripper_python_interface.launch</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>Interface introduction</span><br><span class="line"><span class="meta">#</span>Command 1:set the joint state, 7 joints in "arm" group and 5 joints in "DLR_gripper" group.</span><br><span class="line"><span class="meta">#</span>Command 2:set the pose goal, space coordinates "x","y" and "z".</span><br><span class="line"><span class="meta">#</span>Command 3:plan and display a Cartesian path in MoveIt!</span><br><span class="line"><span class="meta">#</span>Command 4:switch move group, "a" means "arm" group and "g" means "DLR_gripper" group.</span><br><span class="line"><span class="meta">#</span>Command e:exit.</span><br></pre></td></tr></table></figure>
 
 <h3 id="B-Gripper-Control-Guide"><a href="#B-Gripper-Control-Guide" class="headerlink" title="B. Gripper Control Guide"></a>B. Gripper Control Guide</h3><h4 id="Steps"><a href="#Steps" class="headerlink" title="Steps"></a>Steps</h4><h4 id="Create-Catkin-Workspace"><a href="#Create-Catkin-Workspace" class="headerlink" title="Create Catkin Workspace"></a>Create Catkin Workspace</h4><p>Unzip catkin_ws.zip, and cd to it.</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unzip catkin_ws.zip</span><br><span class="line">cd catkin_ws</span><br></pre></td></tr></table></figure>
@@ -694,8 +694,6 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/images/touxiang.jpg" alt="Haokun Wang">
-            
               <p class="site-author-name" itemprop="name">Haokun Wang</p>
               <p class="site-description motion-element" itemprop="description">I'm a undergraduate student in SUSTech, Shenzhen. (2019)</p>
           </div>
@@ -707,7 +705,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -743,7 +741,7 @@
             <div class="links-of-author motion-element">
                 
                   <span class="links-of-author-item">
-                    <a href="https://github.com/Haiik" target="_blank" title="GitHub">
+                    <a href="https://github.com/haokun-wang" target="_blank" title="GitHub">
                       
                         <i class="fa fa-fw fa-github"></i>GitHub</a>
                   </span>
